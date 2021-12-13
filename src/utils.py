@@ -61,7 +61,6 @@ def ReLU(x):
         return 0 
     return x 
 
-
 def initializeWeights(N_weights):
     """
     Returns a 1 x N_weights numpy array with randomly sampled points from a Gaussian distribution. 
@@ -103,25 +102,26 @@ def find_max_index(x):
     return idxs 
 
 
-def backpropagation_pool(dpool, orig, f, s):
+def backpropagation_pool(der_pool, input, f, s):
     """
     Backpropagation through a maxpooling layer. 
     """
 
-    dout = np.zeros(orig.shape)
+    der_output = np.zeros(input.shape)
     
-    for curr in range(orig.shape[0]):
+    for curr in range(input.shape[0]):
         curr_y = out_y = 0
-        while curr_y + f <= orig.shape[1]:
+        while curr_y + f <= input.shape[1]:
             curr_x = out_x = 0
-            while curr_x + f <= orig.shape[1]:
+            while curr_x + f <= input.shape[1]:
                 # obtain index of largest value in input for current window
-                (a, b) = find_max_index(orig[curr, curr_y:curr_y+f, curr_x:curr_x+f])
-                dout[curr, curr_y+a, curr_x+b] = dpool[curr, out_y, out_x]
+                (a, b) = find_max_index(input[curr, curr_y:curr_y+f, curr_x:curr_x+f])
+                der_output[curr, curr_y+a, curr_x+b] = der_pool[curr, out_y, out_x]
                 
                 curr_x += s
                 out_x += 1
             curr_y += s
             out_y += 1
         
-    return dout
+    return der_output
+
