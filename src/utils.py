@@ -45,3 +45,13 @@ def maxpool(img, kernel=2, stride=2):
             y += stride
             y_out += 1
     return output
+
+def crossEntropyLoss(prediction, label):
+    log_predictions = np.log(prediction)
+    to_sum = label * log_predictions 
+    return -np.sum(to_sum)
+
+def ReLU(x):
+    if x < 0:
+        return 0 
+    return x 
