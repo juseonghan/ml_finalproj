@@ -45,6 +45,12 @@ def maxpool(img, kernel=2, stride=2):
         y_out += 1
     return output
 
+def fc(img, weight, bias):
+    (dim, _) = img.shape
+    fc = img.reshape((dim * dim, 1))
+    output = weight.dot(fc) + bias
+    return output
+
 def crossEntropyLoss(prediction, label):
     log_predictions = np.log(prediction)
     to_sum = label * log_predictions 
