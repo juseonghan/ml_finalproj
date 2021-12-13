@@ -60,3 +60,68 @@ def ReLU(x):
     if x < 0:
         return 0 
     return x 
+
+
+def initializeWeights(N_weights):
+    """
+    Returns a 1 x N_weights numpy array with randomly sampled points from a Gaussian distribution. 
+    """
+    return 0.01 * np.random.normal(loc=0.0, scale=1.0, size=N_weights)
+
+def backpropagation_conv(conv_prev, conv_cur, mask, s): 
+    """
+    Calculates the backprojection through a convolution layer.
+    """
+    der_output = np.zeros_like(conv_cur)
+    der_mask = np.zeros_like(mask)
+    der_bias = np.zeros((mask.shape[0], 1))
+
+    for curr_mask in range(mask.shape[0]):
+        curr_y = 0
+        result_y = 0
+
+        while curr_y + mask.shape[2] <= conv_cur.shape[1]:
+            curr_x = 0
+            result_x = 0
+            while curr_x + mask.shape[2] <= conv_cur.shape[1]:
+                der_mask[curr_mask] += conv_prev[curr_mask, result_x, result_y] * conv_cur[:, curr_y:curr_y + mask.shape[2], curr_x:curr_x + mask.shape[2]]
+                der_output[:, curr_y:curr_y+mask.shape[2], curr_x:curr_x+mask.shape[2]] += conv_prev[curr_mask, result_y, result_x] * mask[curr_mask] 
+                curr_x = curr_x + s 
+                output_x = output_x + s 
+            
+        der_bias[curr_mask] = np.sum(conv_prev[curr_mask])
+
+
+    return der_output, der_mask, der_bias 
+
+def find_max_index(x):
+    """
+    Finds the index of the largest valid value in the array
+    """
+    idx = np.nanargmax(x)
+    idxs = np.unravel_index(idx, x.shape)
+    return idxs 
+
+
+def backpropagation_pool(dpool, orig, f, s):
+    """
+    Backpropagation through a maxpooling layer. 
+    """
+
+    dout = np.zeros(orig.shape)
+    
+    for curr in range(orig.shape[0]):
+        curr_y = out_y = 0
+        while curr_y + f <= orig.shape[1]:
+            curr_x = out_x = 0
+            while curr_x + f <= orig.shape[1]:
+                # obtain index of largest value in input for current window
+                (a, b) = find_max_index(orig[curr, curr_y:curr_y+f, curr_x:curr_x+f])
+                dout[curr, curr_y+a, curr_x+b] = dpool[curr, out_y, out_x]
+                
+                curr_x += s
+                out_x += 1
+            curr_y += s
+            out_y += 1
+        
+    return dout
