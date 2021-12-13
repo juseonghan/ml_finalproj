@@ -28,22 +28,21 @@ def maxpool(img, kernel=2, stride=2):
     """
     Function that performs max pooling on img.
     """
-    n, h_old, w_old = img.shape
+    h_old, w_old = img.shape
     h = int((h_old - kernel) / stride) + 1
     w = int((w_old - kernel) / stride) + 1
 
-    output = np.zeros(n, h_old, w_old)
+    output = np.zeros(h_old, w_old)
 
-    for i in range(n):
-        y = y_out = 0
-        while y + kernel <= h_old:
-            x = x_out = 0
-            while x + kernel <= w_old:
-                output[i, y_out, x_out] = np.max(img[i, y:y+kernel, x:x+kernel])
-                x += stride
-                x_out += 1
-            y += stride
-            y_out += 1
+    y = y_out = 0
+    while y + kernel <= h_old:
+        x = x_out = 0
+        while x + kernel <= w_old:
+            output[y_out, x_out] = np.max(img[y:y+kernel, x:x+kernel])
+            x += stride
+            x_out += 1
+        y += stride
+        y_out += 1
     return output
 
 def crossEntropyLoss(prediction, label):
