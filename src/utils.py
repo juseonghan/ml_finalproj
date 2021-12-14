@@ -1,6 +1,6 @@
 import numpy as np
 
-def conv2d(img, mask):
+def conv2d(img, mask, bias):
     """ 
     Function that convs img, a 2d numpy array, with mask with zero padding.
     Given an m x n img and a p x p mask, the output image will be  (2m - p) + 1 x (2n - p) + 1
@@ -20,7 +20,7 @@ def conv2d(img, mask):
         for c in range(img.shape[1]):
             center_coords_padded_img = [r+padding_size, c+padding_size]
             mask_window_multiply = np.multiply(mask, img_zero_padded[center_coords_padded_img[0] - padding_size:center_coords_padded_img[0] + padding_size+1, center_coords_padded_img[1] - padding_size:center_coords_padded_img[1] + padding_size+1])
-            output[r,c] = np.sum(mask_window_multiply, axis=None)
+            output[r,c] = np.sum(mask_window_multiply, axis=None) + bias
 
     return output 
 
