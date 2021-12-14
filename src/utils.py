@@ -56,9 +56,13 @@ def crossEntropyLoss(prediction, label):
     return -np.sum(to_sum)
 
 def ReLU(x):
-    if x < 0:
-        return 0 
-    return x 
+    result = []
+    for val in x:
+        if val < 0:
+            result.append(0)
+        else:
+            result.append(val)
+    return np.asarray(result)
 
 def initializeWeights(N_weights):
     """
