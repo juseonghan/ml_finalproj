@@ -31,8 +31,7 @@ def maxpool(img, kernel=2, stride=2):
     h_old, w_old = img.shape
     h = int((h_old - kernel) / stride) + 1
     w = int((w_old - kernel) / stride) + 1
-
-    output = np.zeros(h_old, w_old)
+    output = np.zeros([h, w])
 
     y = y_out = 0
     while y + kernel <= h_old:
