@@ -5,7 +5,7 @@ Task: Perform image classification for images containing American Sign Language 
 
 Link to dataset: https://www.kaggle.com/datamunge/sign-language-mnist
 
-Link to Google Drive Folder containing PDFs of Google Colab notebooks, CNN Model Code, and Train/Test Datasets:
+Link to Google Drive Folder containing PDFs of Google Colab notebooks for CNN/K-Means/KNN Models, CNN Model Code, and Train/Test Datasets:
 https://drive.google.com/drive/folders/1XojnJQXjpQj9dfnv_7w-Rzk75KhlKOjD?usp=sharing
 
 Link to final presentation: https://docs.google.com/presentation/d/1yYDKAs9_qOi7PujczRhSh1AKxVM2YeY1k5PcQVUG9fE/edit?usp=sharing
